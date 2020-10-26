@@ -1,0 +1,5 @@
+title Creating a new note in SPA
+note over Browser: On clicking "save", the script spa.js updates the list of notes in the document
+note over Browser: Browser stops the default submit behaviour and instead makes an ajax POST request
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Server->Browser: 201 Created Response

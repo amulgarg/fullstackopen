@@ -1,0 +1,10 @@
+title Loading the SPA
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server->Browser: HTML Code
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server->Browser: spa.js
+note over Browser: Browser receives the spa.js script and executes it. Then, it requests for the notes in json format
+
+Browser->Server: https://studies.cs.helsinki.fi/exampleapp/data.json
+Server->Browser: JSON Response [{"content":"test","date":"2020-10-25T19:06:53.753Z"}]
+note over Browser: On receiving the json through the response handler, browser renders the notes

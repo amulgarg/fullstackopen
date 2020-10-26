@@ -1,0 +1,11 @@
+title Creating a new note
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+Server->Browser: 302 URL Redirect
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server->Browser: HTML Code
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server->Browser: main.js
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+note over Browser: Browser executes JavaScript that and then requests notes data as JSON from the server
+Server->Browser: JSON Response [{"content":"test","date":"2020-10-25T19:06:53.753Z"}]
+note over Browser: On receiving the json through the response handler, browser renders the notes end note
