@@ -17,12 +17,27 @@ const App = (props) => {
     setVotes(newVotes);
   }
 
+  const getAnectodeWithMaxVotes = () => {
+    let max = 0;
+    votes.forEach((element, index) => {
+      if(element > votes[max]) max = index;
+    });
+    return max;
+  }
+
+  const max = getAnectodeWithMaxVotes();
+
   return (
     <div>
+      <h2>Anectode of the day</h2>
       <p>{props.anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <button onClick={updateVotesForAnectode}>vote</button>
       <button onClick={setNextAnectode}>next anecdote</button>
+
+      <h2>Anectode with most votes</h2>
+      <p>{props.anecdotes[max]}</p>
+      <p>has {votes[max]} votes</p>
     </div>
   )
 }
