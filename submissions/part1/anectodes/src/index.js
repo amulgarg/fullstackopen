@@ -5,14 +5,23 @@ const getRandomIndex = max => Math.floor(Math.random() * Math.floor(max));
 
 const App = (props) => {
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(props.anecdotes.map(() => 0));
 
   const setNextAnectode = () => {
     setSelected(getRandomIndex(props.anecdotes.length));
   }
 
+  const updateVotesForAnectode = () => {
+    const newVotes = [...votes];
+    newVotes[selected] = newVotes[selected] + 1;
+    setVotes(newVotes);
+  }
+
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={updateVotesForAnectode}>vote</button>
       <button onClick={setNextAnectode}>next anecdote</button>
     </div>
   )
