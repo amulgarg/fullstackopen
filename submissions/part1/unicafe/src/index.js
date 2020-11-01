@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 
 const App = () => {
   // save clicks of each button to its own state
@@ -31,6 +31,9 @@ const App = () => {
             <p>good {good}</p>
             <p>neutral {neutral}</p>
             <p>bad {bad}</p>
+            <p>all {good + neutral + bad}</p>
+            <p>average {(good - bad) / (good + neutral + bad)}</p>
+            <p>postive {(good) * 100/ (good + neutral + bad)}%</p>
         </div>
     </div>
   )
