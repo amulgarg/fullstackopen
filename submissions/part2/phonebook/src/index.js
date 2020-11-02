@@ -21,13 +21,13 @@ const PersonForm = ({newName, newNumber, handleNameChange, handleNumberChange, a
   </form>;
 }
 
-const Persons = ({persons, filter}) => {
+const Persons = ({persons, filter, removePerson}) => {
   let filteredPersons = persons;
   if(filter!==''){
     filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
   }
 
-  return <div>{filteredPersons.map(person => <p key={person.name}>{person.name} {person.number}</p>)}</div>;
+  return <div>{filteredPersons.map(person => <p key={person.name}>{person.name} {person.number} <button onClick={() => removePerson(person)}>delete</button></p>)}</div>;
 }
 
 const App = () => {
@@ -63,6 +63,16 @@ const App = () => {
     }
   }
 
+  const removePerson = (personToRemove) => {
+    const shouldRemove = window.confirm(`Delete ${personToRemove.name}?`);
+    if(shouldRemove){
+      personsService.remove(personToRemove.id).then(() => {
+        const newPersons = persons.filter(person => person.id!==personToRemove.id);
+        setPersons(newPersons);
+      });
+    }
+  }
+
   useEffect(()=>{
     personsService.getAll().then((response) => {
       setPersons(response);
@@ -76,7 +86,7 @@ const App = () => {
       <h3>Add a new</h3>
       <PersonForm newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addPerson={addPerson}/>
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} removePerson={removePerson}/>
     </div>
   )
 }
