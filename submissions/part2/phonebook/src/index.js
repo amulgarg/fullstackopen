@@ -1,6 +1,34 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
+const Filter = ({value, handleFilterChange}) => {
+  return <div>filter shown with <input value={value} onChange={handleFilterChange}/></div>;
+}
+
+const PersonForm = ({newName, newNumber, handleNameChange, handleNumberChange, addPerson}) => {
+  console.log('rendering personform');
+  return <form onSubmit={addPerson}>
+    <div>
+      name: <input value={newName} onChange={handleNameChange}/>
+    </div>
+    <div>
+      number: <input value={newNumber} onChange={handleNumberChange}/>
+    </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>;
+}
+
+const Persons = ({persons, filter}) => {
+  let filteredPersons = persons;
+  if(filter!==''){
+    filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
+  }
+
+  return <div>{filteredPersons.map(person => <p key={person.name}>{person.name} {person.number}</p>)}</div>;
+}
+
 const App = () => {
   const [ persons, setPersons ] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -38,33 +66,15 @@ const App = () => {
     }
 
   }
-
-  const renderFilteredPersonsList = () => {
-    let filteredPersons = persons;
-    if(filter!==''){
-      filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
-    }
-
-    return filteredPersons.map(person => <p key={person.name}>{person.name} {person.number}</p>);
-  }
+  
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input value={filter} onChange={handleFilterChange}/>
-      <h2>Add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {renderFilteredPersonsList()}
+      <Filter value={filter} handleFilterChange={handleFilterChange}/>
+      <h3>Add a new</h3>
+      <PersonForm newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addPerson={addPerson}/>
+      <h3>Numbers</h3>
+      <Persons persons={persons} filter={filter}/>
     </div>
   )
 }
