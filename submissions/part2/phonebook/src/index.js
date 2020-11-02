@@ -37,6 +37,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setFilter ] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -79,6 +80,9 @@ const App = () => {
       personsService.remove(personToRemove.id).then(() => {
         const newPersons = persons.filter(person => person.id!==personToRemove.id);
         setPersons(newPersons);
+      }).catch(error => {
+        console.log('error', error);
+        setErrorMessage(`Information of ${personToRemove.name} has already been removed from the server`);
       });
     }
   }
@@ -93,6 +97,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       {successMessage && <div className="success-message">{successMessage}</div>}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
       <Filter value={filter} handleFilterChange={handleFilterChange}/>
       <h3>Add a new</h3>
       <PersonForm newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addPerson={addPerson}/>
