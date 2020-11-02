@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+import personsService from './services';
 
 const Filter = ({value, handleFilterChange}) => {
   return <div>filter shown with <input value={value} onChange={handleFilterChange}/></div>;
@@ -57,17 +57,15 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
     } else {
       const newPerson = {name: newName, number: newNumber};
-      axios.post('http://localhost:3002/persons', newPerson).then(response => {
-        setPersons(persons.concat(response.data));
+      personsService.create(newPerson).then(response => {
+        setPersons(persons.concat(response));
       });
     }
   }
 
   useEffect(()=>{
-    console.log('useeffect');
-    axios.get('http://localhost:3002/persons').then((response) => {
-      console.log('response', response);
-      setPersons(response.data);
+    personsService.getAll().then((response) => {
+      setPersons(response);
     });
   }, []);
   
