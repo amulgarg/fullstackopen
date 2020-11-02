@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import personsService from './services';
+import './index.css';
 
 const Filter = ({value, handleFilterChange}) => {
   return <div>filter shown with <input value={value} onChange={handleFilterChange}/></div>;
@@ -35,6 +36,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setFilter ] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -65,6 +67,8 @@ const App = () => {
     } else {
       personsService.create(newPerson).then(response => {
         setPersons(persons.concat(response));
+        setSuccessMessage(`Added ${response.name}`);
+        window.setTimeout(()=>setSuccessMessage(null), 3000); //remove after 3 seconds
       });
     }
   }
@@ -88,6 +92,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {successMessage && <div className="success-message">{successMessage}</div>}
       <Filter value={filter} handleFilterChange={handleFilterChange}/>
       <h3>Add a new</h3>
       <PersonForm newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addPerson={addPerson}/>
